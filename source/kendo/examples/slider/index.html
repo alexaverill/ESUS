@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+    <head>
+        <!-- meta -->
+        <!-- meta -->
+        <title>Basic usage</title>
+        <!-- css -->
+        <link href="../styles/examples.css" rel="stylesheet"/>
+        <link href="../../source/styles/kendo.common.css" rel="stylesheet"/>
+        <link href="../../source/styles/kendo.kendo.css" rel="stylesheet"/>
+        <!-- css -->
+        <!-- script -->
+        <script src="../js/jquery.js"></script>
+        <script src="../../source/js/kendo.core.js"></script>
+        <script src="../../source/js/kendo.draganddrop.js"></script>
+        <script src="../../source/js/kendo.slider.js"></script>
+        <!-- script -->
+    </head>
+    <body>
+        <!-- nav -->
+        <!-- nav -->
+        <!-- description -->
+        <div class="description">First Look</div>
+        <!-- description -->
+        <div id="example" class="k-content">
+            <input type="range" id="slider" />
+            <br />
+            <div id="rangeslider" style="margin-top: 40px;">
+                <input type="range" />
+                <input type="range" />
+            </div>
+            <script>
+                $(document).ready(function() {
+                    $("#slider").kendoSlider();
+                    $("#rangeslider").kendoRangeSlider();
+                });
+            </script>
+        </div>
+        <!-- tools -->
+        <!-- tools -->
+    </body>
+</html>

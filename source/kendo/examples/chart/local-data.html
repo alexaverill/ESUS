@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+    <head>
+        <!-- meta -->
+        <!-- meta -->
+        <title>Binding to local data</title>
+        <!-- css -->
+        <link href="../styles/examples.css" rel="stylesheet"/>
+        <link href="../../source/styles/kendo.common.css" rel="stylesheet"/>
+        <link href="../../source/styles/kendo.blueopal.css" rel="stylesheet"/>
+        <!-- css -->
+        <!-- script -->
+        <script src="../js/jquery.js"></script>
+        <script src="../../source/js/kendo.core.js"></script>
+        <script src="../../source/js/kendo.data.js"></script>
+        <script src="../../source/js/kendo.chart.js"></script>
+        <!-- script -->
+    </head>
+    <body>
+        <!-- nav -->
+        <!-- nav -->
+        <!-- description -->
+        <div class="description">Binding to local data</div>
+        <!-- description -->
+        <div id="example" class="k-content">
+            <div id="chart" style="width:650px; height:450px;margin: 0 auto;"></div>
+            <script>
+                var internetUsers = [
+                    {
+                        "country": "United States",
+                        "year": "2005",
+                        "value": 67.96
+                    },
+                    {
+                        "country": "United States",
+                        "year": "2006",
+                        "value": 68.93
+                    },
+                    {
+                        "country": "United States",
+                        "year": "2007",
+                        "value": 75
+                    },
+                    {
+                        "country": "United States",
+                        "year": "2008",
+                        "value": 74
+                    },
+                    {
+                        "country": "United States",
+                        "year": "2009",
+                        "value": 78
+                    }
+                ];
+
+                function createChart() {
+                    $("#chart").kendoChart({
+                        theme: $(document).data("kendoSkin") || "kendo",
+                        dataSource: {
+                            data: internetUsers
+                        },
+                        title: {
+                            text: "Internet Users"
+                        },
+                        legend: {
+                            position: "bottom"
+                        },
+                        seriesDefaults: {
+                            type: "line",
+                            labels: {
+                                visible: true,
+                                format: "{0}%"
+                            }
+                        },
+                        series: [{
+                            field: "value",
+                            name: "United States"
+                        }],
+                        valueAxis: {
+                            labels: {
+                                format: "{0}%"
+                            }
+                        },
+                        categoryAxis: {
+                            field: "year"
+                        }
+                    });
+                }
+
+                $(document).ready(function() {
+                    createChart();
+
+                    $(document).bind("kendo:skinChange", function(e) {
+                        createChart();
+                    });
+                });
+            </script>
+        </div>
+        <!-- tools -->
+        <!-- tools -->
+    </body>
+</html>
+

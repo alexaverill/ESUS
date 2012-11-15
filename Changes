@@ -1,0 +1,22 @@
+ChangeLog:
+11/6/12: Changed naming to 2.0.0.0 in order to follow best practices for version numbers
+
+11/6/12 2.0.0.1 Changing code to clean up, and make more readable.
+				Updating header.php variable names, and commenting 	$correct now is $allow_run
+				Updating some of index.php
+				updating some of login.php
+				Non Tested
+11/6/12 2.0.0.2 Fixed bugs from 2.0.0.1 (Due to lack of testing enviroment)
+				Fixed Reader.php bugs
+					(If Admin_manage.php does not work, make sure excel library is working)
+11/6/12 2.0.1.0
+				Adding Magic Entry Beta feature
+11/14/12 2.0.2.0
+				Adding team management improved page
+				Adding individual emails to be sent to teams.
+				
+
+
+TodDO:
+	Shiny edit all parts of a members profile. see event times, change login details. edit email.
+	

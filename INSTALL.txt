@@ -1,0 +1,14 @@
+INSTALL INSTRUCTIONS:
+NEEDED
+	mySql database
+	mysql user 
+	mysql user password
+Upload these files to your website  (I suggest uploading the entire zip file then unpacking on your website) then
+navigate to install.php and fill out the forms once you have done that a link to the admin creation page will appear
+create a new admin account and you will be ready to use it. Its that simple.
+
+Having an issue:
+Email: alex.averill2013@gmail.com
+Documentation: http://violingeek12.com/esus/docs.html
+ 
+

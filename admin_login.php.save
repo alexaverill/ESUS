@@ -1,0 +1,54 @@
+<?php include('header.php'); session_start(); ?>
+<h1>Administrator Login</h1>
+<div class="user_info">
+<form method="POST" action="">
+<label for="user">Username</label><input type="text" name="user" size="25"/><br/>
+Password<input type="password" name="pass" size="25"/><br/>
+<input class="myButton" value="Login" type="submit" />
+<input type=hidden name=submitted value=1> 
+</form>
+</div>
+<?php 
+if($_POST['submitted']){
+	check();
+
+}
+function check(){
+//echo '<META HTTP-EQUIV=Refresh CONTENT=".01; URL=index.php">';
+$user=$_POST['user']; 
+$password=$_POST['pass'];
+
+// Stopish MySQL injection 
+$user = stripslashes($user);
+$password = stripslashes($password);
+$hash= password_hash($password,PASSWORD_BCRYPT);
+//echo $mpass.'<br/>';
+$sql="SELECT * FROM  `members` WHERE name =  '$user'";
+$result=mysql_query($sql);
+while($row= mysql_fetch_assoc($result)) {
+$passwords= $row['password'];
+}/*
+if (!$result) {
+    die('Invalid query: ' . mysql_error());
+}
+$count=mysql_num_rows($result);
+*/
+//if($count==1){
+
+echo password_verify($passwords,$hash);
+if(password_verify($passwords,$hash)){
+	$_SESSION['admin_name']=$user; 
+	$_SESSION['install']=$install;
+	echo 'Thanks For logging in '. $_SESSION['admin_name'];
+//}
+}
+else {
+	echo "Wrong Username or Password";
+}
+
+ob_end_flush();
+}
+
+echo '<div id="footer"><a href="http://violingeek12.com/esus/">Created by Alex Averill</a></div>';
+include('footer.php');
+?>
