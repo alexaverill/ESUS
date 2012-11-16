@@ -1,11 +1,10 @@
 <?php
 include('header.php');
-	/*if(strlen($_SESSION['admin_name'])>3 && $allow_run==5){
+	if(strlen($_SESSION['admin_name'])>3 && $allow_run==5){
 		allowed();
 	}else{
 		echo '<h1>You Are Not allowed here</h1>';
-	}*/
-	allowed();
+	}
 function allowed(){
 	draw_team_select();
 }
