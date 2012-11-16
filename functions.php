@@ -608,18 +608,10 @@ function adduser(){								//Adds new user Called in Admin Manage
 		$admin_email = $ren['email'];			//Gets the admin email to post when adding contact info. 
 	}
 	$password=$_POST['passbox'];				//Cleans strings
-	$password=stripslashes($password); 
+	//$password=stripslashes($password); 
 	$email=mysql_real_escape_string($_POST['email']);
-	//$mpass=hash('sha512',$password);
-	//$mpass=crypt($password,$salt);
-	//$mpass=md5($password);
-	//$password = password_hash($password,PASSWORD_BCRYPT);
-	$password =  crypt($password);
 	$mpass = $password;
-	//$mpass = $pwdHasher->HashPassword( $password );
-	/*$pwdHasher = new PasswordHash(8, FALSE);
-    $mpass = $pwdHasher->HashPassword( $password );*/
-	//echo $mpass;
+	$password =  crypt($password);
 	$user= $_POST['username'];
 	$user= stripslashes($user);
 	$user= mysql_real_escape_string($user);
@@ -639,12 +631,12 @@ function adduser(){								//Adds new user Called in Admin Manage
 	}else if($row_schools > 0){
 		echo "Sorry, the username ".$user." is already taken. Please try another users<br>";
 	}else{
-		$insert = mysql_query( "INSERT INTO `team` (`id`, `name`, `email`, `username`, `password`) VALUES (NULL, '$name','$email', '$user', '$mpass');")or die("Could not insert data because ".mysql_error());
+		$insert = mysql_query( "INSERT INTO `team` (`id`, `name`, `email`, `username`, `password`) VALUES (NULL, '$name','$email', '$user', '$password');")or die("Could not insert data because ".mysql_error());
 			//echo 'Adding user';							//Info to send to teams. 
 		echo 'Please send this info to the team:<br/>';
 		echo 'The following is your login information for ' .$_POST['schoolname'].'. If you have any issues please contact '.$admin_email.'<br/>';
 		echo 'Username: ' .$user.'<br/>';
-		echo 'Password: ' .$password. '<br/>';
+		echo 'Password: ' .$mpass. '<br/>';
 
 	}
 }
@@ -656,14 +648,8 @@ function add_admin(){				//Adds a new admin. Called in Admin Manage
 	$password=$_POST['passbox'];
 	$pass_write=$_POST['passbox'];
 	$password=stripslashes($password); //injection cleaner
-	//$mpass=hash('sha512',$password);
-	//$mpass=crypt($password,$salt);
-	//$mpass=md5($password);
-	//$password = password_hash($password,PASSWORD_BCRYPT);
 	$password =  crypt($password);
 	$mpass= $password;
-	/*$pwdHasher = new PasswordHash(8, FALSE);
-	$mpass = $pwdHasher->HashPassword( $password );*/
 	$user= $_POST['username'];
 	$user= stripslashes($user);
 	$user= mysql_real_escape_string($user);
@@ -682,27 +668,6 @@ function add_admin(){				//Adds a new admin. Called in Admin Manage
 		echo "<span class=\"success\">Your user account has been created!</span><br>";
 	}
 }
-function reset_password(){			//Resents User Password Called in Admin Manage
-	$user=$_POST['reset_pass'];
-	$pass=$_POST['new_pass'];
-	$write_pass=$pass;
-	//$pass=md5($pass);/*hash('sha512',$password);*/
-	//$pass= password_hash($password,PASSWORD_BCRYPT);
-	$password =  crypt($password);
-	$pass=$password;
-	//$pwdHasher = new PasswordHash(8, FALSE);
-	$user=mysql_real_escape_string($user);
-	//$pass = $pwdHasher->HashPassword( $pass );
-	$sql = "UPDATE `team` SET `password` = '$pass' WHERE `username` = '$user';";
-	//echo $sql;
-	if(strlen($user)!=0 && strlen($pass)!=0){
-	$checker = mysql_query($sql)or die("Could not insert data because ".mysql_error());
-	//echo $sql;
-	echo '<h3>Password Changed to '.$write_pass.'</h3>';
-	}else{
-		echo 'You must enter a username and password.';
-	}
-}
 function draw_reset(){                  //draws reset form for teams
 	$sql = "SELECT * FROM `team` ORDER BY `name` ASC";
 	$checker = mysql_query($sql)or die("Could not insert data because ".mysql_error());
@@ -717,6 +682,26 @@ function draw_reset(){                  //draws reset form for teams
 	</form>';
 
 }
+function reset_password(){			//Resents User Password Called in Admin Manage
+	$user=$_POST['reset_pass'];
+	$pass=$_POST['new_pass'];
+	$write_pass=$pass;
+	$password =  crypt($pass);
+	$pass=$password;
+	//$pwdHasher = new PasswordHash(8, FALSE);
+	$user=mysql_real_escape_string($user);
+	//$pass = $pwdHasher->HashPassword( $pass );
+	$sql = "UPDATE `team` SET `password` = '$password' WHERE `username` = '$user';";
+	//echo $sql;
+	if(strlen($user)!=0 && strlen($pass)!=0){
+	$checker = mysql_query($sql)or die("Could not insert data because ".mysql_error());
+	//echo $sql;
+	echo '<h3>Password Changed to '.$write_pass.'</h3>';
+	}else{
+		echo 'You must enter a username and password.';
+	}
+}
+
 
 function draw_admin_reset(){
 	$sql = "SELECT * FROM `members`";
@@ -735,16 +720,8 @@ function draw_admin_reset(){
 function admin_reset_password(){
 	$user=$_POST['reset_admin_pass'];
 	$pass=$_POST['new_pass'];
-	//echo $user;
-	//echo $pass;
 	$write_pass=$pass;
-	//$pass=md5($pass);/*hash('sha512',$password);*/
-	//$pass= password_hash($password,PASSWORD_BCRYPT);
-	$password = crypt($password);
-	$pass=$password;
-	//$pwdHasher = new PasswordHash(8, FALSE);
-	//$user=mysql_real_escape_string($user);
-	//$pass = $pwdHasher->HashPassword( $pass );
+	$pass=crypt($pass);
 	$sql = "UPDATE `members` SET `password` = '$pass' WHERE `name` = '$user';";
 	//echo $sql;
 	if(strlen($user)!=0 && strlen($pass)!=0){
@@ -954,36 +931,37 @@ function admin_draw_event_table_total(){
 		$run=1;
 			
 		while($run<=$table_settings){
-		/*echo $run.'<br/>';*/
-		$team1=$team.$run;	
-		/*echo $team;*/
+			/*echo $run.'<br/>';*/
+				$team1=$team.$run;	
 				if($row[$team1]==-1){
-		echo '<td id="closed">';
-		echo 'Closed';
-	//	echo '<form method="POST" action=""><input type="hidden" value="'.$time.'" name="time"/><input type="hidden" value="'.$run.'" name="slot"/><input type="hidden" value="'.$row['event'].'" name="event"/><input type="hidden" value="'.$id.'" name="id"/><input type="submit" name="getthis" class="table_btn" value="Reopen"/></form>';
-		echo "</td></td>"; 
-	}else
-			if($row[$team1]<=0){
-				echo '<td id="blue">';
-			echo 'Time Open';
-			echo "</td></td>"; 
-			}else{
-			if($row[$team1] != 0){
-			echo '<td id="yellow">';
-			$id= $row['team1'];
-			$get = mysql_query("SELECT * FROM `team` WHERE `id` = '$id'")or die (mysql_error());
-			while($name = mysql_fetch_array($get)) {
-				echo $name['name'];
+						echo '<td id="closed">';
+						echo 'Closed';
+					//	echo '<form method="POST" action=""><input type="hidden" value="'.$time.'" name="time"/><input type="hidden" value="'.$run.'" name="slot"/><input type="hidden" value="'.$row['event'].'" name="event"/><input type="hidden" value="'.$id.'" name="id"/><input type="submit" name="getthis" class="table_btn" value="Reopen"/></form>';
+						echo "</td></td>"; 
+				}else{
+					if($row[$team1]<=0){
+						echo '<td id="blue">';
+						echo 'Time Open';
+						echo "</td></td>"; 
+					}else{
+						if($row[$team1] != 0){
+						echo '<td id="yellow">';
+						$id= $row[$team1];
+						$get = mysql_query("SELECT * FROM `team` WHERE `id` = '$id'")or die (mysql_error());
+							while($name = mysql_fetch_array($get)) {
+								echo $name['name'];
+							}
+					//echo '<form method="POST" action=""><input type="hidden" value="'.$time.'" name="time"/><input type="hidden" value="1" name="slot"/><input type="hidden" value="'.$row['event'].'" name="event"/><input type="hidden" value="'.$id.'" name="id"/><input type="submit" name="getthis" class="table_btn" value="Clear this"/></form>';
+							echo "</td></td>";
+						}
+					echo "</td>";
+					
+				}
+				
+				
 			}
-		//echo '<form method="POST" action=""><input type="hidden" value="'.$time.'" name="time"/><input type="hidden" value="1" name="slot"/><input type="hidden" value="'.$row['event'].'" name="event"/><input type="hidden" value="'.$id.'" name="id"/><input type="submit" name="getthis" class="table_btn" value="Clear this"/></form>';
-		echo "</td></td>";
-			}
-			echo "</td>";
-			
+			$run+=1;
 		}
-		
-		$run+=1;
-	}
 	}
 }
 }
@@ -1342,8 +1320,9 @@ function add_table_times(){
 
 /*----------------------------Team Manage page functions ----------------*/
 function save_values(){
+	$id=mysql_real_escape_string($_POST['id']);
 	$name=mysql_real_escape_string($_POST['name']);
-	$email= mysql_real_escape_string($_POST['email');
+	$email= mysql_real_escape_string($_POST['email']);
 	$user=mysql_real_escape_string($_POST['username']);
 	$sql = "UPDATE `team` SET `name` = '$name',`email`='$email',`username`='$user' WHERE `id` = '$id';";
 	$run=mysql_query($sql)or die(mysql_error());

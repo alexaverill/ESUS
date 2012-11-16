@@ -19,7 +19,7 @@ if($_SESSION['install']==$install_value){
 				switch($run['enabled']){
 						case 1:
 							$safe=true;
-							write_form();
+							//writeform();
 							break;
 						case 2:
 							$safe=false;

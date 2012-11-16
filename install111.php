@@ -27,7 +27,7 @@ float:left;
 
 <div id="main_container">
 	<div id="header">
-    	<div class="logo"><img src="source/images/logo.png" border="0" alt="" title="" /></div>       
+    	<div class="logo"><img src="http://violingeek12.com/esus/images/logo.png" border="0" alt="" title="" /></div>       
     </div>
         <div class="menu">
         </div>
@@ -82,9 +82,9 @@ function add_login(){
     ?>';
 
 	$newlogin = "database.php";
-	$new_login_open = fopen($newlogin, 'w') or die("Can't open file, please check your permissions");
+	$new_login_open = fopen($newlogin, 'w') or die("can't open file");
 	   if (fwrite($new_login_open, $content) === FALSE) {
-        echo "Cannot write to file ($filename) Please check your permissions";
+        echo "Cannot write to file ($filename)";
         exit;
     }
     fclose($new_login_open );

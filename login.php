@@ -25,10 +25,10 @@ function check($install){
 		$password=$_POST['pass'];
 		$time = getdate();
 		$user= mysql_real_escape_string($user);
-		$password= crypt($password);
+		$pass= crypt($password);
 
-		$sql="SELECT * FROM  `team` WHERE username =  '$user' AND password='$mpass'";
-		$result=mysql_query($sql);
+		$sql="SELECT * FROM  `team` WHERE username =  '$user'";
+		$result=mysql_query($sql)or die(mysql_error());
 
 		while($row= mysql_fetch_assoc($result)) {
 			$stored = $row['password'];
